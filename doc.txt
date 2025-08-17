@@ -173,3 +173,101 @@ Employee	Search, view and download current department policies.	Follow the corre
 System Administrator	Manage user roles and permissions.	Restrict access to sensitive operations like policy upload/update.
 	View audit logs of user activity.	Track access and modifications for security and compliance.
 	Deploy and maintain system securely.	Ensure stable and secure operation of the platform.
+
+
+	├─ .gitignore
+    ├─ README.md
+    ├─ LICENSE
+    ├─ pom.xml
+    ├─ docker/
+    │  ├─ Dockerfile                     # Multi-stage build for Spring Boot jar
+    │  └─ docker-compose.yml             # App + PostgreSQL + healthchecks
+    ├─ scripts/
+    │  ├─ run-local.sh                   # Convenience script to run locally
+    │  ├─ init-db.sql                    # Optional: seed or create DB user
+    │  └─ migrate.sh                     # Optional: Flyway/Liquibase CLI runner
+    ├─ src/
+    │  ├─ main/
+    │  │  ├─ java/org/godigit/policyvault/
+    │  │  │  ├─ PolicyVaultApplication.java
+    │  │  │  ├─ config/
+    │  │  │  │  ├─ OpenApiConfig.java
+    │  │  │  │  ├─ JacksonConfig.java
+    │  │  │  │  ├─ AsyncConfig.java
+    │  │  │  │  └─ CacheConfig.java
+    │  │  │  ├─ security/
+    │  │  │  │  ├─ SecurityConfig.java
+    │  │  │  │  ├─ JwtAuthFilter.java
+    │  │  │  │  ├─ JwtTokenProvider.java
+    │  │  │  │  ├─ CustomUserDetailsService.java
+    │  │  │  │  └─ roles/Role.java
+    │  │  │  ├─ domain/
+    │  │  │  │  ├─ Policy.java
+    │  │  │  │  ├─ PolicyVersion.java
+    │  │  │  │  ├─ ChangeLog.java
+    │  │  │  │  └─ AuditLog.java
+    │  │  │  ├─ repository/
+    │  │  │  │  ├─ PolicyRepository.java
+    │  │  │  │  ├─ PolicyVersionRepository.java
+    │  │  │  │  ├─ ChangeLogRepository.java
+    │  │  │  │  └─ AuditLogRepository.java
+    │  │  │  ├─ dto/
+    │  │  │  │  ├─ PolicyCreateRequest.java
+    │  │  │  │  ├─ PolicyUpdateRequest.java
+    │  │  │  │  ├─ PolicyResponse.java
+    │  │  │  │  ├─ PolicyVersionResponse.java
+    │  │  │  │  ├─ ChangeLogResponse.java
+    │  │  │  │  └─ PageResponse.java
+    │  │  │  ├─ mapper/
+    │  │  │  │  └─ PolicyMapper.java
+    │  │  │  ├─ service/
+    │  │  │  │  ├─ PolicyService.java
+    │  │  │  │  ├─ PolicyVersionService.java
+    │  │  │  │  ├─ ChangeLogService.java
+    │  │  │  │  └─ AuditLogService.java
+    │  │  │  ├─ service/impl/
+    │  │  │  │  ├─ PolicyServiceImpl.java
+    │  │  │  │  ├─ PolicyVersionServiceImpl.java
+    │  │  │  │  ├─ ChangeLogServiceImpl.java
+    │  │  │  │  └─ AuditLogServiceImpl.java
+    │  │  │  ├─ controller/
+    │  │  │  │  ├─ PolicyController.java
+    │  │  │  │  ├─ VersionController.java
+    │  │  │  │  ├─ ChangeController.java
+    │  │  │  │  └─ AuditController.java
+    │  │  │  ├─ audit/
+    │  │  │  │  ├─ AuditAspect.java
+    │  │  │  │  └─ AuditEventPublisher.java
+    │  │  │  ├─ search/
+    │  │  │  │  ├─ PolicySpecifications.java
+    │  │  │  │  └─ SearchRequest.java
+    │  │  │  ├─ exception/
+    │  │  │  │  ├─ GlobalExceptionHandler.java
+    │  │  │  │  ├─ NotFoundException.java
+    │  │  │  │  ├─ BadRequestException.java
+    │  │  │  │  └─ AccessDeniedException.java
+    │  │  │  ├─ util/
+    │  │  │  │  ├─ UuidGenerator.java
+    │  │  │  │  └─ DateUtil.java
+    │  │  │  └─ validation/
+    │  │  │     ├─ ValidDepartment.java
+    │  │  │     └─ ValidDepartmentValidator.java
+    │  │  └─ resources/
+    │  │     ├─ application.properties
+    │  │     ├─ application-dev.properties
+    │  │     ├─ application-prod.properties
+    │  │     ├─ logback-spring.xml
+    │  │     ├─ db/migration/
+    │  │     │  ├─ V1__init_policy_tables.sql
+    │  │     │  └─ V2__indexes_constraints.sql
+    │  │     └─ static/
+    │  └─ test/
+    │     ├─ java/org/godigit/policyvault/
+    │     │  ├─ controller/PolicyControllerIT.java
+    │     │  ├─ service/PolicyServiceTest.java
+    │     │  ├─ repository/PolicyRepositoryTest.java
+    │     │  └─ security/JwtTokenProviderTest.java
+    │     └─ resources/
+    │        └─ application-test.properties
+    └─ .github/workflows/
+       └─ ci.yml
