@@ -1,0 +1,175 @@
+
+Policy & Regulatory Document Indexing System – Project Documentation
+
+1. Overview
+The Policy & Regulatory Document Indexing System is an internal API designed for enterprises to store, manage, and track company policies, regulatory circulars, and amendments over time.
+The system enables:
+Secure storage of policy documents
+Efficient search by department, keyword, or date
+Version control for every policy update
+Change tracking and optional audit logging of user activity
+
+2. Problem Statement
+Organizations often manage a large number of policies and compliance documents, which:
+Exist in multiple versions scattered across different locations
+Lack a centralized search and retrieval mechanism
+Do not have proper change tracking for regulatory compliance
+Cannot easily identify who accessed or modified documents
+
+3. Objectives
+Provide a centralized repository for all policy and regulatory documents.
+Implement version control for policy updates.
+Allow efficient search and filtering based on department, date, or keyword.
+Maintain a change log for regulatory tracking.
+Keep audit logs of user access.
+
+4. Key Features
+Core Features
+Upload Policy with title, department, version, and content.
+Version Management — automatically increments version upon update.
+Search API by department, date, or keyword.
+Change Tracker — endpoint to list modifications.
+Stretch Feature
+Audit Logs — track which user viewed, updated, or deleted a document.
+
+5. Tech Stack
+Layer	Technology
+Backend	Spring Boot (Web, Data JPA, Validation, Scheduler)
+Database	PostgreSQL
+API Docs	Swagger / OpenAPI
+
+Testing	JUnit, Mockito
+Build Tool	Maven
+
+
+7. Database Design
+Tables (tentative)
+policy
+Column	Type	Description
+id	UUID	Primary key
+title	VARCHAR	Policy title
+department	VARCHAR	Department name
+current_version	INT	Latest version number
+created_at	TIMESTAMP	Creation date
+updated_at	TIMESTAMP	Last update date
+
+
+policy_version
+Column	Type	Description
+id	UUID	Primary key
+policy_id	UUID	FK → policy.id
+version	INT	Version number
+content	TEXT	Policy content
+created_at	TIMESTAMP	Version creation date
+
+
+change_log
+Column	Type	Description
+id	UUID	Primary key
+policy_id	UUID	FK → policy.id
+old_version	INT	Previous version
+new_version	INT	Updated version
+changed_by	VARCHAR	Username or User ID
+description	TEXT	Change summary
+change_date	TIMESTAMP	Date of change
+
+
+audit_log
+Column	Type	Description
+id	UUID	Primary key
+user_id	VARCHAR	User performing the action
+policy_id	UUID	FK → policy.id
+action	VARCHAR	VIEW, UPDATE, DELETE
+timestamp	TIMESTAMP	Action date
+
+
+8. API Endpoints
+Policy Management
+Method	Endpoint	Description
+POST	/policies	Upload new policy
+PUT	/policies/{id}	Update policy content
+GET	/policies/{id}	Fetch a single policy
+DELETE	/policies/{id}	Delete a policy
+
+
+Search
+Method	Endpoint	Description
+GET	/policies/search	Search policies by department/date/keyword
+
+
+Version Control
+Method	Endpoint	Description
+GET	/policies/{id}/versions	List all versions
+GET	/policies/{id}/versions/{versionNumber}	Get specific version
+
+
+
+Change Tracking
+Method	Endpoint	Description
+GET	/changes	List all changes with filters
+
+
+
+Audit Logs
+Method	Endpoint	Description
+GET	/audit	View audit logs (admin only)
+
+
+
+9. Security
+Authentication: JWT-based (optional for prototype).
+Authorization: Role-based (e.g., Admin, Viewer).
+Audit Logging: For compliance
+
+
+11. Deployment
+Local: Maven + Spring Boot run
+Dockerized: Spring Boot app + PostgreSQL in Docker Compose
+Cloud: Deployable on AWS/GCP/Azure
+
+
+12. Future Enhancements
+Full-text search (Elasticsearch)
+UI dashboard for document management
+Automated notifications on policy updates
+Multi-language support
+
+
+
+
+13. User Stories
+1. As a Compliance Officer
+I want to upload new policies with department, title, and version details so that the organization has a centralized record of official documents.
+I want to update policies while automatically maintaining version history so I can track what has changed over time.
+I want to search for policies by department or keyword so I can quickly find relevant documents for compliance audits.
+
+2. As a Department Head
+I want to be notified when policies in my department are updated so I can ensure my team is aware of the changes.
+I want to view all versions of a policy so I can compare old and new versions.
+I want to track changes made to policies to ensure that updates align with department needs.
+
+3. As an Employee
+I want to search for and view current policies relevant to my department so I can follow the correct guidelines.
+I want to see when a policy was last updated so I know I am reading the latest version.
+
+
+4. As a System Administrator
+I want to manage user roles and permissions so only authorized users can upload, update, or delete policies.
+I want to view audit logs (if enabled) to track which users accessed or modified documents.
+I want to deploy and maintain the system in a secure and reliable manner.
+
+
+Summary of User Story
+
+User Role	User Story	Purpose
+Compliance Officer	Upload new policies with title, department, and version details.	Maintain a centralized record of official documents.
+	Update policies while preserving version history.	Track changes over time for audit purposes.
+	Search for policies by department/date/keyword.	Quickly retrieve relevant policies during audits or reviews.
+Department Head	Receive notifications when department policies are updated.	Keep the team informed about changes.
+	View all versions of a policy.	Compare old and updated versions for better decision-making.
+	Track policy changes and review change logs.	Ensure updates align with department goals.
+Employee	Search, view and download current department policies.	Follow the correct and most updated guidelines.
+	See when a policy was last updated.	Ensure the document being read is the latest version.
+System Administrator	Manage user roles and permissions.	Restrict access to sensitive operations like policy upload/update.
+	View audit logs of user activity.	Track access and modifications for security and compliance.
+	Deploy and maintain system securely.	Ensure stable and secure operation of the platform.
