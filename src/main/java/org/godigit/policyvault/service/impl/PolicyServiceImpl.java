@@ -1,8 +1,8 @@
 package org.godigit.policyvault.service.impl;
 
-import org.godigit.policyvault.domain.Policy;
-import org.godigit.policyvault.domain.PolicyVersion;
-import org.godigit.policyvault.domain.ChangeLog;
+import org.godigit.policyvault.entities.Policy;
+import org.godigit.policyvault.entities.PolicyVersion;
+import org.godigit.policyvault.entities.ChangeLog;
 import org.godigit.policyvault.dto.*;
 import org.godigit.policyvault.repository.*;
 import org.godigit.policyvault.service.PolicyService;
@@ -34,7 +34,7 @@ public class PolicyServiceImpl implements PolicyService {
         policyRepo.save(policy);
 
         var version = new PolicyVersion();
-        version.setPolicyId(policy.getId());
+        version.setPolicy(policy);
         version.setVersion(1);
         version.setContent(request.content());
         versionRepo.save(version);
@@ -56,13 +56,13 @@ public class PolicyServiceImpl implements PolicyService {
         int newVersion = policy.getCurrentVersion() + 1;
 
         var version = new PolicyVersion();
-        version.setPolicyId(id);
+        version.setPolicy(policy);
         version.setVersion(newVersion);
         version.setContent(request.content());
         versionRepo.save(version);
 
         var changeLog = new ChangeLog();
-        changeLog.setPolicyId(id);
+        changeLog.setPolicy(policy);
         changeLog.setOldVersion(policy.getCurrentVersion());
         changeLog.setNewVersion(newVersion);
         changeLog.setChangedBy(request.changedBy());

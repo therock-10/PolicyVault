@@ -1,6 +1,6 @@
 package org.godigit.policyvault.repository;
 
-import org.godigit.policyvault.domain.AuditLog;
+import org.godigit.policyvault.entities.AuditLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

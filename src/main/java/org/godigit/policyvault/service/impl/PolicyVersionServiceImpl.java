@@ -1,6 +1,6 @@
 package org.godigit.policyvault.service.impl;
 
-import org.godigit.policyvault.domain.PolicyVersion;
+import org.godigit.policyvault.entities.PolicyVersion;
 import org.godigit.policyvault.dto.PolicyVersionResponse;
 import org.godigit.policyvault.repository.PolicyVersionRepository;
 import org.godigit.policyvault.service.PolicyVersionService;
@@ -32,6 +32,6 @@ public class PolicyVersionServiceImpl implements PolicyVersionService {
     }
 
     private PolicyVersionResponse toDto(PolicyVersion pv) {
-        return new PolicyVersionResponse(pv.getId(), pv.getPolicyId(), pv.getVersion(), pv.getContent(), pv.getCreatedAt());
+        return new PolicyVersionResponse(pv.getId(), pv.getPolicy().getId(), pv.getVersion(), pv.getContent(), pv.getCreatedAt());
     }
 }

@@ -1,6 +1,7 @@
 package org.godigit.policyvault.service;
 
-import org.godigit.policyvault.domain.AuditLog;
+import org.godigit.policyvault.entities.AuditLog;
+import org.godigit.policyvault.entities.Policy;
 
 import java.util.List;
 import java.util.UUID;
