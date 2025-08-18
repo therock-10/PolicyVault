@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 public class ChangeLog {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,7 +29,6 @@ public class ChangeLog {
 
     @PrePersist
     public void onCreate() {
-        id = UUID.randomUUID();
         changeDate = LocalDateTime.now();
     }
 }

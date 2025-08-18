@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 public class PolicyVersion {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -27,7 +27,6 @@ public class PolicyVersion {
 
     @PrePersist
     public void onCreate() {
-        id = UUID.randomUUID();
         createdAt = LocalDateTime.now();
     }
 }

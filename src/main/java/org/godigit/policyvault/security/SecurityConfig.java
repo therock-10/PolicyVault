@@ -7,16 +7,11 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/audit/**").hasRole("ADMIN")
-                        .anyRequest().permitAll()
-                )
-                .csrf(csrf -> csrf.disable()); // ✅ Updated way to disable CSRF
-
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .csrf(csrf -> csrf.disable());
         return http.build();
     }
 }

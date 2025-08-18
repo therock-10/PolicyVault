@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 public class Policy {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
     private UUID id;
 
     private String title;
@@ -34,7 +34,6 @@ public class Policy {
 
     @PrePersist
     public void onCreate() {
-        id = UUID.randomUUID();
         createdAt = LocalDateTime.now();
         updatedAt = createdAt;
     }

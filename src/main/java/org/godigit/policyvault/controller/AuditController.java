@@ -1,7 +1,6 @@
 package org.godigit.policyvault.controller;
 
 import org.godigit.policyvault.entities.AuditLog;
-import org.godigit.policyvault.repository.PolicyRepository;
 import org.godigit.policyvault.service.AuditLogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +13,9 @@ import java.util.UUID;
 public class AuditController {
 
     private final AuditLogService auditLogService;
-    private final PolicyRepository policyRepository;
 
-    public AuditController(AuditLogService auditLogService, PolicyRepository policyRepository) {
+    public AuditController(AuditLogService auditLogService) {
         this.auditLogService = auditLogService;
-        this.policyRepository = policyRepository;
     }
 
     @GetMapping("/policy/{policyId}")
