@@ -1,6 +1,6 @@
 package org.godigit.policyvault.repository;
 
-import org.godigit.policyvault.domain.ChangeLog;
+import org.godigit.policyvault.entities.ChangeLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

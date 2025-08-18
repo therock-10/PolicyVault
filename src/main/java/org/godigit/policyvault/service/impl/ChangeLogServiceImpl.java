@@ -20,7 +20,7 @@ public class ChangeLogServiceImpl implements ChangeLogService {
     @Override
     public List<ChangeLogResponse> getChangeLogs(UUID policyId) {
         return changeLogRepo.findByPolicyId(policyId).stream()
-                .map(cl -> new ChangeLogResponse(cl.getId(), cl.getPolicyId(), cl.getOldVersion(),
+                .map(cl -> new ChangeLogResponse(cl.getId(), cl.getPolicy().getId(), cl.getOldVersion(),
                         cl.getNewVersion(), cl.getChangedBy(), cl.getDescription(), cl.getChangeDate()))
                 .toList();
     }

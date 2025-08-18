@@ -1,7 +1,9 @@
 package org.godigit.policyvault.service.impl;
 
-import org.godigit.policyvault.domain.AuditLog;
+import org.godigit.policyvault.entities.AuditLog;
+import org.godigit.policyvault.entities.Policy;
 import org.godigit.policyvault.repository.AuditLogRepository;
+import org.godigit.policyvault.repository.PolicyRepository;
 import org.godigit.policyvault.service.AuditLogService;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +14,18 @@ import java.util.UUID;
 public class AuditLogServiceImpl implements AuditLogService {
 
     private final AuditLogRepository auditLogRepo;
+    private final PolicyRepository policyRepository;
 
-    public AuditLogServiceImpl(AuditLogRepository auditLogRepo) {
+    public AuditLogServiceImpl(AuditLogRepository auditLogRepo, PolicyRepository policyRepository) {
         this.auditLogRepo = auditLogRepo;
+        this.policyRepository = policyRepository;
     }
 
     @Override
     public void log(String userId, UUID policyId, String action) {
         var log = new AuditLog();
         log.setUserId(userId);
-        log.setPolicyId(policyId);
+        log.setPolicy(policyRepository.getReferenceById(policyId));
         log.setAction(action);
         auditLogRepo.save(log);
     }
