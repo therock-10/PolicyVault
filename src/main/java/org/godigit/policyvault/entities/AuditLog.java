@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 public class AuditLog {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
     private UUID id;
 
     private String userId;
@@ -26,7 +26,6 @@ public class AuditLog {
 
     @PrePersist
     public void onCreate() {
-        id = UUID.randomUUID();
         timestamp = LocalDateTime.now();
     }
 }
