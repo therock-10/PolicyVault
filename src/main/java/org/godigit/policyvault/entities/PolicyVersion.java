@@ -15,13 +15,12 @@ public class PolicyVersion {
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
 
     private int version;
 
-    @Lob
     private String content;
     private LocalDateTime createdAt;
 

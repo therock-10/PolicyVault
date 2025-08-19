@@ -15,7 +15,7 @@ public class ChangeLog {
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
 
@@ -23,7 +23,6 @@ public class ChangeLog {
     private int newVersion;
     private String changedBy;
 
-    @Lob
     private String description;
     private LocalDateTime changeDate;
 

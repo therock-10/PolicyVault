@@ -41,7 +41,7 @@ public class PolicyController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> deletePolicy(@PathVariable UUID id) {
         policyService.deletePolicy(id);
         return ResponseEntity.noContent().build();
