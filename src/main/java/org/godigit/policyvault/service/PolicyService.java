@@ -2,7 +2,7 @@ package org.godigit.policyvault.service;
 
 import org.godigit.policyvault.dto.*;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 import java.util.UUID;
 
