@@ -17,7 +17,7 @@ public class AuditLog {
 
     private String userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "policy_id", nullable = false)
     private Policy policy;
 

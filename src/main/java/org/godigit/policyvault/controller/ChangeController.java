@@ -18,8 +18,8 @@ public class ChangeController {
         this.changeLogService = changeLogService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<ChangeLogResponse>> getChanges(@RequestParam UUID policyId) {
-        return ResponseEntity.ok(changeLogService.getChangeLogs(policyId));
+    @GetMapping("/{id}")
+    public ResponseEntity<List<ChangeLogResponse>> getChanges(@PathVariable UUID id) {
+        return ResponseEntity.ok(changeLogService.getChangeLogs(id));
     }
 }
