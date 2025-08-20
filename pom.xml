@@ -103,6 +103,7 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
+<<<<<<< HEAD
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -121,6 +122,8 @@
 			<scope>runtime</scope>
 		</dependency>
 
+=======
+>>>>>>> b04c446cccbcdb6b0f28d11cd37acf12fe01498d
 	</dependencies>
 
 	<build>

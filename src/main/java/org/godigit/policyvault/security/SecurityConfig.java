@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableMethodSecurity // enables @PreAuthorize on services/controllers
 public class SecurityConfig {
+<<<<<<< HEAD
 
     private final CustomUserDetailsService uds;
     private final JwtService jwtService;
@@ -81,4 +82,13 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
+=======
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+                .csrf(csrf -> csrf.disable());
+        return http.build();
+    }
+>>>>>>> b04c446cccbcdb6b0f28d11cd37acf12fe01498d
 }
