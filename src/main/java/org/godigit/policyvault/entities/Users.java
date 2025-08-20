@@ -1,7 +1,6 @@
 package org.godigit.policyvault.entities;
 
 import jakarta.persistence.*;
-import org.godigit.policyvault.entities.Role;
 
 import java.time.Instant;
 import java.util.HashSet;
@@ -15,7 +14,7 @@ import java.util.UUID;
                 @UniqueConstraint(name = "uk_users_email", columnNames = "email")
         }
 )
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue

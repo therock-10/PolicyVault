@@ -33,19 +33,19 @@ public class Policy {
     private List<PolicyVersion> versions;
 
     // NEW: who created and last updated this policy
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(
             name = "created_by_id",
             foreignKey = @ForeignKey(name = "fk_policy_created_by")
     )
-    private User createdBy;
+    private Users createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(
             name = "updated_by_id",
             foreignKey = @ForeignKey(name = "fk_policy_updated_by")
     )
-    private User lastUpdatedBy;
+    private Users lastUpdatedBy;
 
     @PrePersist
     public void onCreate() {
