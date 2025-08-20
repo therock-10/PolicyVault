@@ -1,10 +1,9 @@
-package org.godigit.policyvault.service;
+package org.godigit.policyvault.service.impl;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.godigit.policyvault.entities.Role;
 import org.godigit.policyvault.entities.Users;
 import org.godigit.policyvault.repository.UserRepository;
 import org.springframework.security.core.userdetails.*;

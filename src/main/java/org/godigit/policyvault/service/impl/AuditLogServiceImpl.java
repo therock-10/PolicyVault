@@ -7,6 +7,7 @@ import org.godigit.policyvault.repository.PolicyRepository;
 import org.godigit.policyvault.service.AuditLogService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,5 +39,10 @@ public class AuditLogServiceImpl implements AuditLogService {
     @Override
     public List<AuditLog> getLogsByUser(String userId) {
         return auditLogRepo.findByUserId(userId);
+    }
+
+    @Override
+    public void record(String userId, UUID policyId, String action, String description, Instant ts) {
+
     }
 }

@@ -45,7 +45,7 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('EMPLOYEE','DEPT_HEAD','COMPLIANCE_OFFICER','ADMIN')")
+    @PreAuthorize("hasAnyRole('EMPLOYEE','DEPARTMENT_HEAD','COMPLIANCE_OFFICER','ADMIN')")
     public PolicyResponse getPolicy(UUID id) {
         var policy = policyRepo.findById(id).orElseThrow();
         return new PolicyResponse(policy.getId(), policy.getTitle(), policy.getDepartment(),

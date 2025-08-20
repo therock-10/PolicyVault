@@ -39,10 +39,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest req) {
         Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword()));
+                new UsernamePasswordAuthenticationToken(req.username(), req.password()));
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        Users user = (Users) users.findByUsername(req.getUsername()).orElseThrow();
+        Users user = (Users) users.findByUsername(req.username()).orElseThrow();
         userService.touchLogin(user.getUsername());
 
         var roles = auth.getAuthorities().stream()
@@ -55,11 +55,11 @@ public class AuthController {
     // Admin-only provisioning endpoint (optional)
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
-        if (users.existsByUsername(req.getUsername())) return ResponseEntity.badRequest().body("Username taken");
-        if (users.existsByEmail(req.getEmail())) return ResponseEntity.badRequest().body("Email taken");
+        if (users.existsByUsername(req.username())) return ResponseEntity.badRequest().body("Username taken");
+        if (users.existsByEmail(req.email())) return ResponseEntity.badRequest().body("Email taken");
         // You can lock this route with @PreAuthorize("hasRole('ADMIN')") if exposed beyond bootstrap
-        Users u = userService.createUser(req.getUsername(), req.getEmail(), req.getPassword(),
-                req.getDepartment(), req.getRoles() == null ? Set.of(Role.ROLE_EMPLOYEE) : req.getRoles());
+        Users u = userService.createUser(req.username(), req.email(), req.password(),
+                req.department(), req.roles() == null ? Set.of(Role.ROLE_EMPLOYEE) : req.roles());
         return ResponseEntity.ok(Map.of("id", u.getId(), "username", u.getUsername()));
     }
 }
