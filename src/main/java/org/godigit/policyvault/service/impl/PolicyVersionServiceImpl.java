@@ -34,4 +34,5 @@ public class PolicyVersionServiceImpl implements PolicyVersionService {
     private PolicyVersionResponse toDto(PolicyVersion pv) {
         return new PolicyVersionResponse(pv.getId(), pv.getPolicy().getId(), pv.getVersion(), pv.getContent(), pv.getCreatedAt());
     }
+
 }
