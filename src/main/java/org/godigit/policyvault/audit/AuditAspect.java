@@ -67,7 +67,7 @@ public class AuditAspect {
         return uri != null && uri.startsWith("/policies");
     }
 
-    private Optional<UUID> extractUuid(String uri) {
+    Optional<UUID> extractUuid(String uri) {
         if (uri == null) return Optional.empty();
         Matcher m = UUID_IN_PATH.matcher(uri);
         if (m.find()) {
