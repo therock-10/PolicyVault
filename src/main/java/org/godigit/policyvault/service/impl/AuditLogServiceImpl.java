@@ -5,6 +5,7 @@ import org.godigit.policyvault.entities.Policy;
 import org.godigit.policyvault.repository.AuditLogRepository;
 import org.godigit.policyvault.repository.PolicyRepository;
 import org.godigit.policyvault.service.AuditLogService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -32,11 +33,13 @@ public class AuditLogServiceImpl implements AuditLogService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<AuditLog> getLogsByPolicy(UUID policyId) {
         return auditLogRepo.findByPolicyId(policyId);
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<AuditLog> getLogsByUser(String userId) {
         return auditLogRepo.findByUserId(userId);
     }
