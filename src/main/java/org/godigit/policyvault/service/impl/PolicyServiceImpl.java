@@ -1,19 +1,17 @@
 package org.godigit.policyvault.service.impl;
-
 import org.godigit.policyvault.entities.Policy;
 import org.godigit.policyvault.entities.PolicyVersion;
 import org.godigit.policyvault.entities.ChangeLog;
 import org.godigit.policyvault.dto.*;
+import org.godigit.policyvault.exception.PolicyNotFoundException;
 import org.godigit.policyvault.repository.*;
 import org.godigit.policyvault.service.PolicyService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.*;
 
-@Service
-public class PolicyServiceImpl implements PolicyService {
+@Service public class PolicyServiceImpl implements PolicyService {
 
     private final PolicyRepository policyRepo;
     private final PolicyVersionRepository versionRepo;
@@ -47,16 +45,26 @@ public class PolicyServiceImpl implements PolicyService {
     @Override
     @PreAuthorize("hasAnyRole('EMPLOYEE','DEPARTMENT_HEAD','COMPLIANCE_OFFICER','ADMIN')")
     public PolicyResponse getPolicy(UUID id) {
-        var policy = policyRepo.findById(id).orElseThrow();
-        return new PolicyResponse(policy.getId(), policy.getTitle(), policy.getDepartment(),
-                policy.getCurrentVersion(), policy.getCreatedAt(), policy.getUpdatedAt());
+        var policy = policyRepo.findById(id)
+                .orElseThrow(() -> new PolicyNotFoundException("Policy with ID '" + id + "' not found"));
+
+        return new PolicyResponse(
+                policy.getId(),
+                policy.getTitle(),
+                policy.getDepartment(),
+                policy.getCurrentVersion(),
+                policy.getCreatedAt(),
+                policy.getUpdatedAt()
+        );
     }
 
     @Override
     @Transactional
     @PreAuthorize("hasAnyRole('COMPLIANCE_OFFICER','ADMIN')")
     public void updatePolicy(UUID id, PolicyUpdateRequest request) {
-        var policy = policyRepo.findById(id).orElseThrow();
+        var policy = policyRepo.findById(id)
+                .orElseThrow(() -> new PolicyNotFoundException("Policy with ID '" + id + "' not found"));
+
         int newVersion = policy.getCurrentVersion() + 1;
 
         var version = new PolicyVersion();
@@ -80,18 +88,28 @@ public class PolicyServiceImpl implements PolicyService {
     @Override
     @PreAuthorize("hasRole('ADMIN')")
     public void deletePolicy(UUID id) {
+        if (!policyRepo.existsById(id)) {
+            throw new PolicyNotFoundException("Policy with ID '" + id + "' not found, cannot delete.");
+        }
         policyRepo.deleteById(id);
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('EMPLOYEE','DEPT_HEAD','COMPLIANCE_OFFICER','ADMIN')")
+    @PreAuthorize("hasAnyRole('EMPLOYEE','DEPARTMENT_HEAD','COMPLIANCE_OFFICER','ADMIN')")
     public List<PolicyResponse> searchPolicies(String department, String keyword) {
         var policies = policyRepo.findAll();
+
         return policies.stream()
                 .filter(p -> (department == null || p.getDepartment().toLowerCase().contains(department.toLowerCase())) &&
                         (keyword == null || p.getTitle().toLowerCase().contains(keyword.toLowerCase())))
-                .map(p -> new PolicyResponse(p.getId(), p.getTitle(), p.getDepartment(),
-                        p.getCurrentVersion(), p.getCreatedAt(), p.getUpdatedAt()))
+                .map(p -> new PolicyResponse(
+                        p.getId(),
+                        p.getTitle(),
+                        p.getDepartment(),
+                        p.getCurrentVersion(),
+                        p.getCreatedAt(),
+                        p.getUpdatedAt()
+                ))
                 .toList();
     }
 }
