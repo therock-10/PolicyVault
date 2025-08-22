@@ -16,7 +16,7 @@ import java.time.Instant; import java.util.Set;
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+   //@PreAuthorize("hasRole('ADMIN')")
     public Users createUser(String username, String email, String rawPassword,
                             String department, Set<Role> roles) {
         Users u = new Users();

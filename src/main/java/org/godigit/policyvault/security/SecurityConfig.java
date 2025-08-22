@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // auth endpoints
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
 
                         // public read/search for employees
                         .requestMatchers(HttpMethod.GET, "/api/policies/**").hasAnyRole(
