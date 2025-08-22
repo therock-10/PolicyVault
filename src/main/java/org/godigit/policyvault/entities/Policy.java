@@ -32,6 +32,21 @@ public class Policy {
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PolicyVersion> versions;
 
+    // NEW: who created and last updated this policy
+    @ManyToOne
+    @JoinColumn(
+            name = "created_by_id",
+            foreignKey = @ForeignKey(name = "fk_policy_created_by")
+    )
+    private Users createdBy;
+
+    @ManyToOne
+    @JoinColumn(
+            name = "updated_by_id",
+            foreignKey = @ForeignKey(name = "fk_policy_updated_by")
+    )
+    private Users lastUpdatedBy;
+
     @PrePersist
     public void onCreate() {
         createdAt = LocalDateTime.now();

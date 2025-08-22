@@ -13,6 +13,7 @@ import java.util.UUID;
 public class AuditLog {
     @Id
     @GeneratedValue
+
     private UUID id;
 
     private String userId;

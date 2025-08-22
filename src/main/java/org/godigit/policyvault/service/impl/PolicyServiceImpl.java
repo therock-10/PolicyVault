@@ -6,6 +6,7 @@ import org.godigit.policyvault.entities.ChangeLog;
 import org.godigit.policyvault.dto.*;
 import org.godigit.policyvault.repository.*;
 import org.godigit.policyvault.service.PolicyService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAnyRole('COMPLIANCE_OFFICER','ADMIN')")
     public UUID createPolicy(PolicyCreateRequest request) {
         var policy = new Policy();
         policy.setTitle(request.title());
@@ -43,6 +45,7 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('EMPLOYEE','DEPARTMENT_HEAD','COMPLIANCE_OFFICER','ADMIN')")
     public PolicyResponse getPolicy(UUID id) {
         var policy = policyRepo.findById(id).orElseThrow();
         return new PolicyResponse(policy.getId(), policy.getTitle(), policy.getDepartment(),
@@ -51,6 +54,7 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasAnyRole('COMPLIANCE_OFFICER','ADMIN')")
     public void updatePolicy(UUID id, PolicyUpdateRequest request) {
         var policy = policyRepo.findById(id).orElseThrow();
         int newVersion = policy.getCurrentVersion() + 1;
@@ -74,11 +78,13 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void deletePolicy(UUID id) {
         policyRepo.deleteById(id);
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('EMPLOYEE','DEPT_HEAD','COMPLIANCE_OFFICER','ADMIN')")
     public List<PolicyResponse> searchPolicies(String department, String keyword) {
         var policies = policyRepo.findAll();
         return policies.stream()
