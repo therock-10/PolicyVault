@@ -12,6 +12,7 @@ import org.godigit.policyvault.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -20,15 +21,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AuthenticationManager authManager; // auto-configured by Spring Boot
+    private final AuthenticationManager authManager; // autoconfigured by Spring Boot
     private final JwtService jwtService;
     private final UserService userService;
     private final UserRepository users;
     private final PasswordEncoder encoder;
 
 
-    public AuthController(AuthenticationManager authManager, JwtService jwtService,
-                          UserService userService, UserRepository users, PasswordEncoder encoder) {
+    public AuthController(AuthenticationManager authManager, JwtService jwtService, UserService userService, UserRepository users, PasswordEncoder encoder) {
         this.authManager = authManager;
         this.jwtService = jwtService;
         this.userService = userService;
@@ -39,17 +39,17 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest req) {
         Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(req.username(), req.password()));
+                new UsernamePasswordAuthenticationToken(req.email(), req.password()));
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        Users user = (Users) users.findByUsername(req.username()).orElseThrow();
-        userService.touchLogin(user.getUsername());
+        Users user = users.findByEmail(req.email()).orElseThrow();
+        userService.touchLogin(user.getEmail());
 
         var roles = auth.getAuthorities().stream()
-                .map(a -> a.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
-        String token = jwtService.generate(user.getUsername(), Map.of("roles", roles));
-        return ResponseEntity.ok(new JwtResponse(token, user.getUsername(), roles));
+        String token = jwtService.generate(user.getEmail(), Map.of("roles", roles));
+        return ResponseEntity.ok(new JwtResponse(token, user.getEmail(), roles));
     }
 
     // Admin-only provisioning endpoint (optional)

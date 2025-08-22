@@ -16,7 +16,7 @@ import java.time.Instant; import java.util.Set;
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+
     public Users createUser(String username, String email, String rawPassword,
                             String department, Set<Role> roles) {
         Users u = new Users();
@@ -30,9 +30,9 @@ import java.time.Instant; import java.util.Set;
 
     @Override
     @Transactional
-    @PreAuthorize("hasAnyRole('ADMIN','COMPLIANCE_OFFICER','DEPARTMENT_HEAD','EMPLOYEE')")
-    public void touchLogin(String username) {
-        users.findByUsername(username).ifPresent(u -> {
+    @PreAuthorize("hasAnyRole('ADMIN','COMPLIANCE_OFFICER','DEPT_HEAD','EMPLOYEE')")
+    public void touchLogin(String email) {
+        users.findByEmail(email).ifPresent(u -> {
             u.setLastLoginAt(Instant.now());
             users.save(u);
         });

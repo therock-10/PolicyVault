@@ -24,11 +24,6 @@ public class PolicyController {
         var id = policyService.createPolicy(request);
         return ResponseEntity.ok(id);
     }
-    @GetMapping
-    public String ping() {
-        return "pong";
-    }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<PolicyResponse> getPolicy(@PathVariable UUID id) {

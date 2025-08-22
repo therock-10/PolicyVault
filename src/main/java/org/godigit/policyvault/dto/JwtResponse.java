@@ -4,6 +4,6 @@ import java.util.Set;
 
 public record JwtResponse(
         String token,
-        String username,
+        String email,
         Set<String> roles
 ) {}

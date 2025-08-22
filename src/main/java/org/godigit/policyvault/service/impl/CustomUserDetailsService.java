@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService{
 
     private final UserRepository users;
 
@@ -18,11 +18,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.users = users;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
         Users u = null;
         try {
-            u = users.findByUsername(username)
+            u = users.findByEmail(email)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         } catch (Throwable e) {
             throw new RuntimeException(e);
@@ -34,5 +33,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new User(
                 u.getUsername(), u.getPasswordHash(), u.isEnabled(),
                 true, true, true, authorities);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return loadUserByEmail(email);
     }
 }

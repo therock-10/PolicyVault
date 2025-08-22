@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,7 +31,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -60,13 +63,13 @@ public class SecurityConfig {
                                 "EMPLOYEE","DEPT_HEAD","COMPLIANCE_OFFICER","ADMIN")
 
                         // create/update/delete policies
-                        .requestMatchers(HttpMethod.POST, "/api/policies/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.POST, "/policies/**").hasAnyRole(
                                 "COMPLIANCE_OFFICER","ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/policies/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.PUT, "/policies/**").hasAnyRole(
                                 "COMPLIANCE_OFFICER","ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/api/policies/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.PATCH, "/policies/**").hasAnyRole(
                                 "COMPLIANCE_OFFICER","ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/policies/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/policies/**").hasRole("ADMIN")
 
                         // user admin
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
