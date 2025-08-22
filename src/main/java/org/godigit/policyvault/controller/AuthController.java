@@ -52,7 +52,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(token, user.getEmail(), roles));
     }
 
-    // Admin-only provisioning endpoint (optional)
+    // Admin-only provisioning endpoint
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
         if (users.existsByUsername(req.username())) return ResponseEntity.badRequest().body("Username taken");
