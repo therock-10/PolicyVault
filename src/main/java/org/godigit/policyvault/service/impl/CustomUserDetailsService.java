@@ -19,10 +19,9 @@ import org.springframework.stereotype.Service;
         this.users = users;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        Users u = users.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User with username '" + username + "' not found"));
+    public UserDetails loadUserByEmail(String email){
+        Users u = users.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User with email'" + email + "' not found"));
 
         Set<SimpleGrantedAuthority> authorities = u.getRoles().stream()
                 .map(Enum::name)
@@ -38,5 +37,10 @@ import org.springframework.stereotype.Service;
                 true,
                 authorities
         );
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        return loadUserByEmail(username);
     }
 }
