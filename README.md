@@ -1,3 +1,4 @@
+AIzaSyBBUXjHrh14Yu1ekTir2g60EKGfA4td5hk
 Perfect 👍 Thanks for sharing your project zip. Let’s do this step by step:
 
 We’ll integrate two things into your Spring Boot backend:
