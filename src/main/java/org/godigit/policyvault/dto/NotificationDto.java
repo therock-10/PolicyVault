@@ -5,11 +5,9 @@ import lombok.*;
 import java.time.Instant;
 import java.util.UUID;
 
-/**
- * DTO for safely exposing notification data to clients.
- */
 @Getter
 @Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
