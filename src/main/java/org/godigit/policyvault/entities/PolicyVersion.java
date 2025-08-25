@@ -3,6 +3,7 @@ package org.godigit.policyvault.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class PolicyVersion {
 
     private int version;
 
-    private String content;
+    private String file;
     private LocalDateTime createdAt;
 
     @PrePersist

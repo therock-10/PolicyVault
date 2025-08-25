@@ -57,20 +57,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // auth endpoints
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/actuator/**").hasAnyRole("ADMIN")
 
                         // public read/search for employees
                         .requestMatchers(HttpMethod.GET, "/api/policies/**").hasAnyRole(
                                 "EMPLOYEE","DEPT_HEAD","COMPLIANCE_OFFICER","ADMIN")
 
                         // create/update/delete policies
-                        .requestMatchers(HttpMethod.POST, "/policies/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.POST, "/api/policies/**").hasAnyRole(
                                 "COMPLIANCE_OFFICER","ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/policies/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.PUT, "/api/policies/**").hasAnyRole(
                                 "COMPLIANCE_OFFICER","ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/policies/**").hasAnyRole(
+                        .requestMatchers(HttpMethod.PATCH, "/api/policies/**").hasAnyRole(
                                 "COMPLIANCE_OFFICER","ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/policies/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/policies/**").hasRole("ADMIN")
 
                         // user admin
                         .requestMatchers("/api/users/**").hasRole("ADMIN")

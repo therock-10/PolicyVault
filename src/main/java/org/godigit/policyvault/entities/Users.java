@@ -51,6 +51,9 @@ public class Users {
 
     private boolean enabled = true;
 
+    public void setUsername(String username){
+        this.username = username;
+    }
 
     // getters/setters...
     // equals/hashCode on id

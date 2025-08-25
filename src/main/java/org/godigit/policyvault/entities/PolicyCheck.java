@@ -18,7 +18,6 @@ public class PolicyCheck {
     private UUID id;
 
     private String policyName;
-    private String description;
     private String filePath;
 
     @Column(columnDefinition = "text")

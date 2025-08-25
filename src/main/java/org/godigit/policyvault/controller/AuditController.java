@@ -1,5 +1,6 @@
 package org.godigit.policyvault.controller;
 
+import org.godigit.policyvault.dto.AuditLogDto;
 import org.godigit.policyvault.entities.AuditLog;
 import org.godigit.policyvault.service.AuditLogService;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,12 @@ public class AuditController {
     }
 
     @GetMapping("/policy/{policyId}")
-    public ResponseEntity<List<AuditLog>> getLogsByPolicy(@PathVariable UUID policyId) {
+    public ResponseEntity<List<AuditLogDto>> getLogsByPolicy(@PathVariable UUID policyId) {
         return ResponseEntity.ok(auditLogService.getLogsByPolicy(policyId));
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<AuditLog>> getLogsByUser(@PathVariable String userId) {
+    public ResponseEntity<List<AuditLogDto>> getLogsByUser(@PathVariable String userId) {
         return ResponseEntity.ok(auditLogService.getLogsByUser(userId));
     }
 }

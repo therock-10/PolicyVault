@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +49,7 @@ public class PolicyVersionServiceImpl implements PolicyVersionService {
                 pv.getId(),
                 pv.getPolicy().getId(),
                 pv.getVersion(),
-                pv.getContent(),
+                new File(pv.getFile()),
                 pv.getCreatedAt()
         );
     }

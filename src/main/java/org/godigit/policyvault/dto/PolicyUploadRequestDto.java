@@ -7,6 +7,5 @@ import lombok.Setter;
 @Setter
 public class PolicyUploadRequestDto {
     private String policyName;
-    private String description;
     private String policyText;
 }

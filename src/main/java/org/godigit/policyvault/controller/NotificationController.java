@@ -22,11 +22,8 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    /**
-     * Fetch all notifications for the currently logged-in DEPT_HEAD.
-     */
     @GetMapping("/my")
-    @PreAuthorize("hasRole('DEPT_HEAD')") // ⚠️ Ensure role matches your project
+    @PreAuthorize("hasRole('DEPT_HEAD')")
     public ResponseEntity<List<Notification>> getMyNotifications() {
         return ResponseEntity.ok(notificationService.getAllNotifications());
     }

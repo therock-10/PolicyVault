@@ -1,5 +1,6 @@
 package org.godigit.policyvault.service;
 
+import org.godigit.policyvault.dto.AuditLogDto;
 import org.godigit.policyvault.entities.AuditLog;
 import org.godigit.policyvault.entities.Policy;
 
@@ -8,9 +9,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AuditLogService {
-    void log(String userId, UUID policyId, String action);
-    List<AuditLog> getLogsByPolicy(UUID policyId);
-    List<AuditLog> getLogsByUser(String userId);
-
-    void record(String userId, UUID policyId, String action, String description, Instant ts);
+    void log(UUID policyId, String action);
+    List<AuditLogDto> getLogsByPolicy(UUID policyId);
+    List<AuditLogDto> getLogsByUser(String userId);
 }
+

@@ -25,21 +25,22 @@ public class PolicyController {
         this.complianceService = complianceService;
     }
 
-    @PostMapping
-    public ResponseEntity<UUID> createPolicy(@RequestBody PolicyCreateRequest request) {
-        var id = policyService.createPolicy(request);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<UUID> createPolicy(@ModelAttribute PolicyCreateRequest request) throws Exception {
+        UUID id = policyService.createPolicy(request);
         return ResponseEntity.ok(id);
     }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> updatePolicy(@PathVariable UUID id, @ModelAttribute @Valid PolicyUpdateRequest request) throws Exception {
+        policyService.updatePolicy(id, request);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<PolicyResponse> getPolicy(@PathVariable UUID id) {
         return ResponseEntity.ok(policyService.getPolicy(id));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updatePolicy(@PathVariable UUID id, @RequestBody @Valid PolicyUpdateRequest request) {
-        policyService.updatePolicy(id, request);
-        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}/delete")
@@ -55,12 +56,8 @@ public class PolicyController {
         return ResponseEntity.ok(policyService.searchPolicies(department, keyword));
     }
 
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ComplianceResponseDto uploadPolicy(
-            @RequestPart("file") MultipartFile file,
-            @RequestParam(value = "policyName", required = false) String policyName,
-            @RequestParam(value = "description", required = false) String description
-    ) throws Exception {
-        return complianceService.handleUploadAndCheck(file, policyName, description);
+    @PostMapping(value = "/{id}/auto-compliance-check")
+    public ComplianceResponseDto uploadPolicy(@PathVariable UUID id) throws Exception {
+        return complianceService.handleAutoCompliance(id);
     }
 }

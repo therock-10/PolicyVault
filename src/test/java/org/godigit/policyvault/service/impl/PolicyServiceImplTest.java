@@ -3,6 +3,8 @@ package org.godigit.policyvault.service.impl;
 import org.godigit.policyvault.dto.*;
 import org.godigit.policyvault.entities.*;
 import org.godigit.policyvault.repository.*;
+import org.godigit.policyvault.service.DocumentParserService;
+import org.godigit.policyvault.util.FileStorageUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,13 +20,19 @@ class PolicyServiceImplTest {
     private PolicyVersionRepository versionRepo;
     private ChangeLogRepository changeLogRepo;
     private PolicyServiceImpl policyService;
+    private FileStorageUtil fileStorageUtil;
+    private DocumentParserServiceImpl documentParserService;
+    private NotificationServiceImpl notificationService;
 
     @BeforeEach
     void setUp() {
         policyRepo = mock(PolicyRepository.class);
         versionRepo = mock(PolicyVersionRepository.class);
         changeLogRepo = mock(ChangeLogRepository.class);
-        policyService = new PolicyServiceImpl(policyRepo, versionRepo, changeLogRepo);
+        fileStorageUtil = mock(FileStorageUtil.class);
+        documentParserService = mock(DocumentParserServiceImpl.class);
+        notificationService = mock(NotificationServiceImpl.class);
+        policyService = new PolicyServiceImpl(policyRepo, versionRepo, changeLogRepo, notificationService, fileStorageUtil, documentParserService);
     }
 
     @Test

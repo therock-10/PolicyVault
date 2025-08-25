@@ -23,8 +23,8 @@ public class Policy {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AuditLog> auditLogs;
+//    @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<AuditLog> auditLogs;
 
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChangeLog> changeLogs;

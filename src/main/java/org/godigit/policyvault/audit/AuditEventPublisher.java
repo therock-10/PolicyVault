@@ -20,7 +20,7 @@ public class AuditEventPublisher {
     public void publish(String action, UUID policyId, String description) {
         String userId = resolveUserId();
         Instant ts = Instant.now();
-        auditLogService.record(userId, policyId, action, description, ts);
+        //auditLogService.record(userId, policyId, action, description, ts);
     }
 
     private String resolveUserId() {

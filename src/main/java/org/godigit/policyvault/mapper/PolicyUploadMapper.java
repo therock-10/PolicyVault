@@ -11,7 +11,6 @@ public class PolicyUploadMapper {
     public PolicyCheck toEntity(PolicyUploadRequestDto dto) {
         PolicyCheck e = new PolicyCheck();
         e.setPolicyName(dto.getPolicyName());
-        e.setDescription(dto.getDescription());
         e.setPolicyText(dto.getPolicyText());
         return e;
     }

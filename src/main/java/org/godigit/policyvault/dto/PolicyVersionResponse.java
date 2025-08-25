@@ -7,6 +7,6 @@ public record PolicyVersionResponse(
         UUID id,
         UUID policyId,
         int version,
-        String content,
+        java.io.File content,
         LocalDateTime createdAt
 ) {}
